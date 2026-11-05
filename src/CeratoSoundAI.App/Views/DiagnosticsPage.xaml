@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             x:Class="CeratoSoundAI.App.Views.DiagnosticsPage" x:DataType="vm:DiagnosticsViewModel" Title="Diagnóstico">
+  <ScrollView>
+    <VerticalStackLayout Padding="20,14" Spacing="12">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <Label Grid.Column="1" Text="DIAGNÓSTICO DA MULTIMÍDIA" Style="{StaticResource Title}" VerticalOptions="Center" />
+      </Grid>
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+        <Button Text="EXECUTAR DIAGNÓSTICO" Style="{StaticResource Primary}" Command="{Binding RunCommand}" IsEnabled="{Binding Busy, Converter={StaticResource Not}}" />
+        <ActivityIndicator Grid.Column="1" IsRunning="{Binding Busy}" Color="{StaticResource Accent}" />
+      </Grid>
+      <Border Style="{StaticResource CardBox}"><Label Text="{Binding Summary}" FontSize="14" /></Border>
+      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+        <CheckBox IsChecked="{Binding Sanitize}" />
+        <Label Grid.Column="1" Text="Remover dados sensíveis (serial, MAC, IP…) do relatório" VerticalOptions="Center" />
+        <Button Grid.Column="2" Text="Compartilhar JSON" Command="{Binding ShareJsonCommand}" />
+      </Grid>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="4">
+          <Label Text="COMANDOS ADB SOMENTE LEITURA" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Label Text="{Binding Adb}" FontFamily="monospace" FontSize="12" Style="{StaticResource Secondary}" />
+        </VerticalStackLayout>
+      </Border>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="4">
+          <Label Text="INVESTIGAÇÃO DE QUALIDADE SONORA (hipóteses, não conclusões)" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Label Text="{Binding Checklist}" Style="{StaticResource Secondary}" />
+        </VerticalStackLayout>
+      </Border>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout>
+          <Label Text="RELATÓRIO JSON" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Label Text="{Binding Json}" FontFamily="monospace" FontSize="11" Style="{StaticResource Secondary}" />
+        </VerticalStackLayout>
+      </Border>
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

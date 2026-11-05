@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application android:allowBackup="false" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:usesCleartextTraffic="false"></application>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <!-- Required to attach AudioEffects to the global output mix. -->
+  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+  <!-- Voice commands and (future) calibration capture. Requested at runtime only on explicit user action. -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <!-- Reapply the stored profile after boot where the OS allows it. -->
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <!-- Diagnostics: find the original equalizer / audio packages (read-only). -->
+  <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+  <uses-feature android:name="android.hardware.microphone" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+</manifest>

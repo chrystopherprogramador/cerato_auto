@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctl="clr-namespace:CeratoSoundAI.App.Controls"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             x:Class="CeratoSoundAI.App.Views.EqualizerPage" x:DataType="vm:EqualizerViewModel" Title="Equalizador">
+  <ScrollView>
+    <Grid Padding="20,14" ColumnDefinitions="3*,*" ColumnSpacing="16" RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+      <Grid Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <Label Grid.Column="1" Text="EQUALIZADOR" Style="{StaticResource Title}" VerticalOptions="Center" Margin="16,0" />
+        <Label Grid.Column="2" Text="{Binding State.DspStatusText}" TextColor="{Binding State.DspStatusColor}" FontAttributes="Bold" VerticalOptions="Center" />
+      </Grid>
+
+      <VerticalStackLayout Grid.Row="1" Spacing="10">
+        <ctl:EqCurveView x:Name="Curve" HeightRequest="300" />
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="8">
+          <Button Text="◀" Command="{Binding PrevCommand}" WidthRequest="64" />
+          <Label Grid.Column="1" Text="{Binding SelectedText}" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+          <Button Grid.Column="2" Text="▶" Command="{Binding NextCommand}" WidthRequest="64" />
+          <Button Grid.Column="3" Text="−0,5" Command="{Binding DownCommand}" WidthRequest="84" />
+          <Button Grid.Column="4" Text="+0,5" Command="{Binding UpCommand}" WidthRequest="84" Style="{StaticResource Primary}" />
+        </Grid>
+        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" RowDefinitions="Auto,Auto" RowSpacing="8">
+          <Button Text="Graves −" Command="{Binding BassDownCommand}" /> <Button Grid.Column="1" Text="Médios −" Command="{Binding MidDownCommand}" /> <Button Grid.Column="2" Text="Agudos −" Command="{Binding TrebleDownCommand}" />
+          <Button Grid.Row="1" Text="Graves +" Command="{Binding BassUpCommand}" /> <Button Grid.Row="1" Grid.Column="1" Text="Médios +" Command="{Binding MidUpCommand}" /> <Button Grid.Row="1" Grid.Column="2" Text="Agudos +" Command="{Binding TrebleUpCommand}" />
+        </Grid>
+        <Label Text="Graves/médios/agudos são atalhos sobre as bandas reais; não são controles separados do hardware." Style="{StaticResource Secondary}" FontSize="12" />
+      </VerticalStackLayout>
+
+      <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
+        <Button Text="APLICAR E SALVAR" Style="{StaticResource Primary}" Command="{Binding ApplySaveCommand}" />
+        <Button Text="Zerar curva" Command="{Binding FlatCommand}" />
+        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
+          <Button Text="A" Command="{Binding ShowACommand}" Padding="0" /> <Button Grid.Column="1" Text="B" Command="{Binding ShowBCommand}" Padding="0" />
+          <Button Grid.Column="2" Text="→A" Command="{Binding StoreACommand}" Padding="0" FontSize="14" /> <Button Grid.Column="3" Text="→B" Command="{Binding StoreBCommand}" Padding="0" FontSize="14" />
+        </Grid>
+        <Button Text="Marcar como ajuste seguro" Command="{Binding MarkStableCommand}" />
+        <Button Text="Rollback do motor" TextColor="{StaticResource Warn}" Command="{Binding RollbackCommand}" />
+        <Label Text="{Binding Message}" TextColor="{StaticResource Accent}" FontSize="13" />
+      </VerticalStackLayout>
+
+      <Border Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="4">
+          <Label Text="CAPACIDADES REAIS" TextColor="{StaticResource Accent}" FontSize="12" CharacterSpacing="2" FontAttributes="Bold" />
+          <CollectionView ItemsSource="{Binding Capabilities}">
+            <CollectionView.ItemTemplate>
+              <DataTemplate x:DataType="vm:CapabilityRow">
+                <Grid ColumnDefinitions="Auto,*,Auto" Padding="0,3" ColumnSpacing="10">
+                  <BoxView WidthRequest="10" HeightRequest="10" CornerRadius="5" Color="{Binding Color}" VerticalOptions="Center" />
+                  <Label Grid.Column="1" Text="{Binding Name}" />
+                  <Label Grid.Column="2" Text="{Binding Status}" Style="{StaticResource Secondary}" />
+                </Grid>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
+          <Label Text="{Binding State.DspStatusDetail}" Style="{StaticResource Secondary}" FontSize="12" />
+        </VerticalStackLayout>
+      </Border>
+    </Grid>
+  </ScrollView>
+</ContentPage>

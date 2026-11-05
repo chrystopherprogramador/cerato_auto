@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             x:Class="CeratoSoundAI.App.Views.CalibrationPage" x:DataType="vm:CalibrationViewModel" Title="Calibração">
+  <ScrollView>
+    <VerticalStackLayout Padding="20,14" Spacing="12">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <Label Grid.Column="1" Text="CALIBRAÇÃO ACÚSTICA" Style="{StaticResource Title}" VerticalOptions="Center" />
+      </Grid>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="SEGURANÇA" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <HorizontalStackLayout Spacing="10">
+            <CheckBox IsChecked="{Binding ParkedConfirmed}" />
+            <Label Text="Confirmo que o veículo está estacionado." VerticalOptions="Center" />
+          </HorizontalStackLayout>
+          <Label Text="{Binding Gate}" TextColor="{StaticResource Warn}" />
+          <Label Text="{Binding Limits}" Style="{StaticResource Secondary}" />
+        </VerticalStackLayout>
+      </Border>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="MICROFONE" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Label Text="{Binding MicPolicy}" />
+          <CollectionView ItemsSource="{Binding Capture}">
+            <CollectionView.ItemTemplate><DataTemplate x:DataType="x:String"><Label Text="{Binding .}" Style="{StaticResource Secondary}" FontSize="13" /></DataTemplate></CollectionView.ItemTemplate>
+          </CollectionView>
+        </VerticalStackLayout>
+      </Border>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="8">
+          <Label Text="SINAL DE TESTE" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Button Text="Reproduzir varredura de teste (limitada)" Style="{StaticResource Primary}" Command="{Binding PlaySweepCommand}" IsEnabled="{Binding Playing, Converter={StaticResource Not}}" />
+          <Label Text="{Binding Status}" />
+          <Label Text="Pendente (não implementado): captura com microfone calibrado, curva de resposta, comparação com curva-alvo, geração de filtros, correção por canal e antes/depois." Style="{StaticResource Secondary}" FontSize="13" />
+        </VerticalStackLayout>
+      </Border>
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

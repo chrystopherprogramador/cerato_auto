@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctl="clr-namespace:CeratoSoundAI.App.Controls"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             xmlns:dom="clr-namespace:CeratoSoundAI.Domain;assembly=CeratoSoundAI.Domain"
+             x:Class="CeratoSoundAI.App.Views.MainPage" x:DataType="vm:MainViewModel" Title="Início">
+  <ScrollView>
+    <Grid Padding="20,14" RowSpacing="14" ColumnSpacing="16" RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="2*,*">
+      <!-- header -->
+      <Grid Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <VerticalStackLayout Grid.Column="1" Margin="16,0" VerticalOptions="Center">
+          <Label Text="CERATO SOUND AI" Style="{StaticResource Title}" />
+          <Label Text="{Binding State.SyncText}" Style="{StaticResource Secondary}" />
+        </VerticalStackLayout>
+        <Border Grid.Column="2" Style="{StaticResource CardBox}" Padding="14,8" VerticalOptions="Center">
+          <HorizontalStackLayout Spacing="10">
+            <BoxView WidthRequest="14" HeightRequest="14" CornerRadius="7" Color="{Binding State.DspStatusColor}" VerticalOptions="Center" />
+            <Label Text="{Binding State.DspStatusText}" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" LineBreakMode="WordWrap" MaximumWidthRequest="360" />
+          </HorizontalStackLayout>
+        </Border>
+      </Grid>
+
+      <!-- curve + mini chat -->
+      <VerticalStackLayout Grid.Row="1" Spacing="12">
+        <ctl:EqCurveView x:Name="Curve" HeightRequest="260" />
+        <Label Text="{Binding State.DspStatusDetail}" Style="{StaticResource Secondary}" FontSize="12" />
+        <Border Style="{StaticResource CardBox}">
+          <VerticalStackLayout Spacing="8">
+            <Label Text="ASSISTENTE" TextColor="{StaticResource Accent}" FontSize="12" CharacterSpacing="2" FontAttributes="Bold" />
+            <Label Text="{Binding Assistant.LastReply}" MaxLines="4" LineBreakMode="TailTruncation" Style="{StaticResource Secondary}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+              <Entry Placeholder="Peça um ajuste (ex.: grave embolado)…" Text="{Binding MiniInput}" ReturnCommand="{Binding MiniSendCommand}" />
+              <Button Grid.Column="1" Text="Enviar" Style="{StaticResource Primary}" Command="{Binding MiniSendCommand}" />
+            </Grid>
+            <Label Text="{Binding Status}" TextColor="{StaticResource Warn}" FontSize="13" />
+          </VerticalStackLayout>
+        </Border>
+      </VerticalStackLayout>
+
+      <!-- actions + now playing -->
+      <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="12">
+        <Button Text="🎚  EQUALIZADOR" Style="{StaticResource Primary}" HeightRequest="76" Command="{Binding GoEqCommand}" />
+        <Button Text="🎯  CALIBRAÇÃO" HeightRequest="76" Command="{Binding GoCalibrationCommand}" />
+        <Button Text="✨  ASSISTENTE IA" HeightRequest="76" Command="{Binding GoAssistantCommand}" />
+        <Button Text="↩  Último ajuste seguro" TextColor="{StaticResource Warn}" Command="{Binding SafeCommand}" />
+        <Border Style="{StaticResource CardBox}">
+          <VerticalStackLayout>
+            <Label Text="EM REPRODUÇÃO" TextColor="{StaticResource Accent}" FontSize="12" CharacterSpacing="2" FontAttributes="Bold" />
+            <Label Text="Metadados indisponíveis" />
+            <Label Text="Exibir a música atual exige acesso às notificações de mídia (ainda não implementado)." Style="{StaticResource Secondary}" FontSize="12" />
+          </VerticalStackLayout>
+        </Border>
+      </VerticalStackLayout>
+
+      <!-- quick profiles -->
+      <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="6">
+        <Label Text="PERFIS" TextColor="{StaticResource Accent}" FontSize="12" CharacterSpacing="2" FontAttributes="Bold" />
+        <CollectionView ItemsSource="{Binding Profiles}" HeightRequest="70" ItemsLayout="HorizontalList">
+          <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="dom:AudioProfile">
+              <Button Text="{Binding Name}" Margin="0,0,10,0" MinimumWidthRequest="150"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ApplyQuickCommand}" CommandParameter="{Binding .}" />
+            </DataTemplate>
+          </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Text="Perfis iniciais são pontos de partida suaves, NÃO calibrações reais." Style="{StaticResource Secondary}" FontSize="12" />
+      </VerticalStackLayout>
+    </Grid>
+  </ScrollView>
+</ContentPage>

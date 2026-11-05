@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             xmlns:dom="clr-namespace:CeratoSoundAI.Domain;assembly=CeratoSoundAI.Domain"
+             x:Class="CeratoSoundAI.App.Views.HistoryPage" x:DataType="vm:HistoryViewModel" Title="Histórico">
+  <ScrollView>
+    <VerticalStackLayout Padding="20,14" Spacing="12">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <Label Grid.Column="1" Text="HISTÓRICO DE ALTERAÇÕES" Style="{StaticResource Title}" VerticalOptions="Center" />
+      </Grid>
+      <Label Text="{Binding Message}" TextColor="{StaticResource Accent}" />
+      <CollectionView ItemsSource="{Binding Entries}">
+        <CollectionView.ItemTemplate>
+          <DataTemplate x:DataType="dom:ProfileHistoryEntry">
+            <Border Style="{StaticResource CardBox}" Margin="0,3">
+              <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                  <Label Text="{Binding Snapshot.Name}" FontAttributes="Bold" />
+                  <Label Text="{Binding Note}" Style="{StaticResource Secondary}" FontSize="12" />
+                  <Label Text="{Binding AtUtc, StringFormat='{0:dd/MM/yyyy HH:mm} UTC'}" Style="{StaticResource Secondary}" FontSize="12" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="Restaurar" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HistoryViewModel}}, Path=RestoreCommand}" CommandParameter="{Binding .}" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+      <Label Text="REGISTRO TÉCNICO (sem tokens nem áudio)" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+      <CollectionView ItemsSource="{Binding Logs}">
+        <CollectionView.ItemTemplate><DataTemplate x:DataType="x:String"><Label Text="{Binding .}" FontSize="12" Style="{StaticResource Secondary}" /></DataTemplate></CollectionView.ItemTemplate>
+      </CollectionView>
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

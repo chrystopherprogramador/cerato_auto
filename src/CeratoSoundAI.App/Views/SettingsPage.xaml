@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             x:Class="CeratoSoundAI.App.Views.SettingsPage" x:DataType="vm:SettingsViewModel" Title="Configurações">
+  <ScrollView>
+    <VerticalStackLayout Padding="20,14" Spacing="12">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+        <Label Grid.Column="1" Text="CONFIGURAÇÕES" Style="{StaticResource Title}" VerticalOptions="Center" />
+      </Grid>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="MOTOR DE ÁUDIO" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Picker ItemsSource="{Binding Modes}" SelectedIndex="{Binding ModeIndex}" />
+          <Label Text="Faixas do equalizador original (Hz, separadas por vírgula) — usado no modo manual. Se vazio, usa 10 bandas de oitava só como exemplo." Style="{StaticResource Secondary}" FontSize="12" />
+          <Entry Text="{Binding Bands}" Placeholder="ex.: 60,230,910,3600,14000" />
+          <HorizontalStackLayout Spacing="10"><Switch IsToggled="{Binding AllowHigh}" /><Label Text="Permitir reforços acima de +6 dB (não recomendado)" VerticalOptions="Center" /></HorizontalStackLayout>
+        </VerticalStackLayout>
+      </Border>
+      <Border Style="{StaticResource CardBox}">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="IA (OLLAMA CLOUD / BACKEND SAMOS)" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+          <Label Text="URL base: https://ollama.com ou o seu backend intermediário (que guarda a credencial)." Style="{StaticResource Secondary}" FontSize="12" />
+          <Entry Text="{Binding Url}" Keyboard="Url" />
+          <Entry Text="{Binding ApiKey}" IsPassword="True" Placeholder="Chave/token (guardado no armazenamento seguro; nunca no APK)" />
+          <Button Text="Remover chave guardada" Command="{Binding ClearKeyCommand}" />
+          <HorizontalStackLayout Spacing="10"><Switch IsToggled="{Binding Speak}" /><Label Text="Ler respostas em voz alta (TTS)" VerticalOptions="Center" /></HorizontalStackLayout>
+        </VerticalStackLayout>
+      </Border>
+      <Button Text="SALVAR" Style="{StaticResource Primary}" Command="{Binding SaveCommand}" />
+      <Label Text="{Binding Message}" TextColor="{StaticResource Accent}" />
+      <Label Text="Cerato Sound AI 0.1 · MVP diagnóstico. Sem root, sem Shizuku, sem comandos proprietários." Style="{StaticResource Secondary}" FontSize="12" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <Style TargetType="Page" ApplyToDerivedTypes="True">
+    <Setter Property="BackgroundColor" Value="{StaticResource Bg}" />
+  </Style>
+  <Style TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="FontSize" Value="16" />
+  </Style>
+  <Style x:Key="Secondary" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+  <Style x:Key="Title" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="FontSize" Value="26" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="CharacterSpacing" Value="3" />
+  </Style>
+  <Style TargetType="Button">
+    <Setter Property="BackgroundColor" Value="{StaticResource Card}" />
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="MinimumHeightRequest" Value="56" />
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="Padding" Value="18,8" />
+  </Style>
+  <Style x:Key="Primary" TargetType="Button">
+    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+    <Setter Property="TextColor" Value="{StaticResource Bg}" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="MinimumHeightRequest" Value="56" />
+    <Setter Property="FontSize" Value="17" />
+  </Style>
+  <Style x:Key="CardBox" TargetType="Border">
+    <Setter Property="BackgroundColor" Value="{StaticResource Card}" />
+    <Setter Property="Stroke" Value="{StaticResource Surface}" />
+    <Setter Property="StrokeThickness" Value="1" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+    <Setter Property="Padding" Value="16" />
+  </Style>
+  <Style TargetType="Entry">
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
+    <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+    <Setter Property="FontSize" Value="17" />
+  </Style>
+  <Style TargetType="Editor">
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+    <Setter Property="FontSize" Value="15" />
+  </Style>
+  <Style TargetType="Switch">
+    <Setter Property="OnColor" Value="{StaticResource Accent}" />
+  </Style>
+  <Style TargetType="CheckBox">
+    <Setter Property="Color" Value="{StaticResource Accent}" />
+  </Style>
+  <Style TargetType="Picker">
+    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    <Setter Property="TitleColor" Value="{StaticResource TextSecondary}" />
+    <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+  </Style>
+</ResourceDictionary>

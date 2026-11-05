@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             xmlns:app="clr-namespace:CeratoSoundAI.Application.Assistant;assembly=CeratoSoundAI.Application"
+             x:Class="CeratoSoundAI.App.Views.AssistantPage" x:DataType="vm:AssistantViewModel" Title="Assistente IA">
+  <Grid Padding="20,14" RowDefinitions="Auto,*,Auto,Auto,Auto" RowSpacing="10">
+    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+      <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+      <Label Grid.Column="1" Text="ASSISTENTE IA" Style="{StaticResource Title}" VerticalOptions="Center" />
+      <Picker Grid.Column="2" Title="Modelo" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedModel}" WidthRequest="220" />
+    </Grid>
+    <CollectionView x:Name="Chat" Grid.Row="1" ItemsSource="{Binding Messages}">
+      <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="vm:ChatItem">
+          <Border Style="{StaticResource CardBox}" Margin="0,4" BackgroundColor="{Binding IsUser, Converter={StaticResource UserBg}}">
+            <VerticalStackLayout>
+              <Label Text="{Binding Who}" TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" />
+              <Label Text="{Binding Text}" />
+            </VerticalStackLayout>
+          </Border>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+      <CollectionView.EmptyView>
+        <Label Text="Peça, por exemplo: &quot;deixe as guitarras mais definidas&quot;. Alterações só são aplicadas após sua confirmação." Style="{StaticResource Secondary}" />
+      </CollectionView.EmptyView>
+    </CollectionView>
+
+    <Border Grid.Row="2" IsVisible="{Binding HasPending}" Style="{StaticResource CardBox}" Stroke="{StaticResource Accent}">
+      <VerticalStackLayout Spacing="6">
+        <Label Text="PROPOSTA — COMPARAÇÃO (dB)" TextColor="{StaticResource Accent}" FontAttributes="Bold" FontSize="12" />
+        <CollectionView ItemsSource="{Binding Comparison}" HeightRequest="140">
+          <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="app:ComparisonRow">
+              <Grid ColumnDefinitions="90,*,*" Padding="0,2">
+                <Label Text="{Binding Band, StringFormat='{0} Hz'}" />
+                <Label Grid.Column="1" Text="{Binding CurrentDb, StringFormat='atual {0:+0.0;-0.0;0.0}'}" Style="{StaticResource Secondary}" />
+                <Label Grid.Column="2" Text="{Binding ProposedDb, StringFormat='proposto {0:+0.0;-0.0;0.0}'}" TextColor="{StaticResource Accent}" />
+              </Grid>
+            </DataTemplate>
+          </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+          <Button Text="CONFIRMAR E APLICAR" Style="{StaticResource Primary}" Command="{Binding ConfirmCommand}" />
+          <Button Grid.Column="1" Text="Cancelar" Command="{Binding CancelPendingCommand}" />
+        </Grid>
+      </VerticalStackLayout>
+    </Border>
+    <Label Grid.Row="3" Text="{Binding IssuesText}" TextColor="{StaticResource Warn}" FontSize="13" />
+    <Grid Grid.Row="4" ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="8">
+      <Entry Placeholder="Descreva o som que você quer…" Text="{Binding Input}" ReturnCommand="{Binding SendCommand}" />
+      <Button Grid.Column="1" Text="🎤" WidthRequest="64" Padding="0" Command="{Binding ListenCommand}" />
+      <Button Grid.Column="2" Text="↩" WidthRequest="64" Padding="0" Command="{Binding RevertCommand}" />
+      <Button Grid.Column="3" Text="Enviar" Style="{StaticResource Primary}" Command="{Binding SendCommand}" IsEnabled="{Binding Busy, Converter={StaticResource Not}}" />
+    </Grid>
+  </Grid>
+</ContentPage>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CeratoSoundAI.App.ViewModels"
+             xmlns:dom="clr-namespace:CeratoSoundAI.Domain;assembly=CeratoSoundAI.Domain"
+             x:Class="CeratoSoundAI.App.Views.ProfilesPage" x:DataType="vm:ProfilesViewModel" Title="Perfis">
+  <Grid Padding="20,14" RowDefinitions="Auto,*,Auto" RowSpacing="10">
+    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+      <Button Text="☰" WidthRequest="56" Padding="0" Clicked="OnMenu" />
+      <Label Grid.Column="1" Text="PERFIS" Style="{StaticResource Title}" VerticalOptions="Center" />
+    </Grid>
+    <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" SelectionMode="Single" SelectedItem="{Binding Selected}">
+      <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="dom:AudioProfile">
+          <Border Style="{StaticResource CardBox}" Margin="0,4">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8">
+              <VerticalStackLayout>
+                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="19" />
+                <Label Text="{Binding Description}" Style="{StaticResource Secondary}" FontSize="12" />
+                <Label Text="{Binding Sync, StringFormat='Sincronização: {0}'}" Style="{StaticResource Secondary}" FontSize="12" />
+              </VerticalStackLayout>
+              <Button Grid.Column="1" Text="{Binding IsFavorite, Converter={StaticResource Star}}" WidthRequest="56" Padding="0"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfilesViewModel}}, Path=FavoriteCommand}" CommandParameter="{Binding .}" />
+              <Button Grid.Column="2" Text="Aplicar" Style="{StaticResource Primary}"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfilesViewModel}}, Path=ApplyCommand}" CommandParameter="{Binding .}" />
+              <Button Grid.Column="3" Text="Duplicar"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfilesViewModel}}, Path=DuplicateCommand}" CommandParameter="{Binding .}" />
+              <Button Grid.Column="4" Text="Exportar"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfilesViewModel}}, Path=ExportCommand}" CommandParameter="{Binding .}" />
+              <Button Grid.Column="5" Text="🗑" WidthRequest="56" Padding="0" TextColor="{StaticResource Danger}"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfilesViewModel}}, Path=DeleteCommand}" CommandParameter="{Binding .}" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>
+    <VerticalStackLayout Grid.Row="2" Spacing="6">
+      <Label Text="{Binding Message}" TextColor="{StaticResource Accent}" />
+      <Entry Placeholder="Nome para duplicar (opcional)" Text="{Binding NewName}" />
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <Editor Placeholder="Cole aqui o JSON de um perfil para importar" Text="{Binding ImportJson}" HeightRequest="70" AutoSize="Disabled" />
+        <Button Grid.Column="1" Text="Importar" Command="{Binding ImportCommand}" />
+      </Grid>
+      <Label Text="Os perfis iniciais são pontos de partida suaves e NÃO calibrados. 'Original Cerato' só será referência após medição." Style="{StaticResource Secondary}" FontSize="12" />
+    </VerticalStackLayout>
+  </Grid>
+</ContentPage>
